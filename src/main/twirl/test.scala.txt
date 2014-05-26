@@ -1,17 +1,10 @@
-@import scala.math._; var r: Double = 0; var theta: Double = 0
+@import spire.math._; var r: Double = 0; var theta: Double = 0; var p: Double = 0
 
-@roundAt(p: Int, n: Double) = @{
-    val s = pow (10, p); 
-    (round(n * s)) / s
-}
+@preamble("PHYS 234 - A3")
 
-@unit(num: Any, u: String) = @{
-    "\\unit[" + num.toString + "]{" + u + "}"
-}
-
-@problem(re: Int, im: Int) = {
-    @{r = roundAt(3, sqrt(re*re + im*im))}
-    @{theta = roundAt(3, atan2(im, re))}
+@problem1(re: Int, im: Int) = {
+    @{r = roundAt(2, sqrt(re*re + im*im))}
+    @{theta = roundAt(3, scala.math.atan2(im, re))}
     \problemsub
     \begin{align*}
     z &= @re + @im i \\
@@ -20,14 +13,41 @@
       &= @r \\
     \\
     \theta &= \arctan\frac{\Im}{\Re}(z) \biggr \rvert_{z = @re + @im i} \\
-    &= @unit(theta, "rad")
+           &= @unit(theta, "rad")
     \\
     z &= @r (\cos{@theta} + i\sin{@theta}) \\
     &= @r e^{@theta i}
     \end{align*}
 }
 
-@problem(-3, 4)
-@problem(7, -1)
-@problem(-2, -5)
+@problem2(i: Int, up: Complex[Double], down: Complex[Double]) = {
+    \begin{align*}
+        r &= \sqrt{|@up|^2 + |@down|^2} \\
+          &= @r \\
+        \\
+        \Ket{\psi_{@i,norm}} &= \frac{\Ket{\psi_@i}}{r} \\
+                             &= \frac{@up}{@r}\Ket{+} + \frac{@down}{@r}\Ket{-}
+        \\
+        P_z &= |\Braket{+|\psi_{@i,norm}}|^2 \\
+            &= \left|\frac{@up}{@r}\right|^2 \\
+            &= @p \\
+        \\
+        P_x &= \left|\frac{1}{\sqrt{2}}
+            (\Bra{+} + \Bra{-})\Ket{\psi_{@i,norm}}\right|^2 \\
+            &= \left|\frac{1}{\sqrt{2}}
+            (\Braket{+|\psi_{@i,norm}} + \Braket{-|\psi_{@i,norm}})\right|^2 \\
+            &= @p \\
+        \\
+    \end{align*}
 
+}
+
+@for(z <- List((-3, 4), (7, -1), (-2, -5))) {
+    @problem1(z._1, z._2)
+}
+
+\stepcounter{set}
+@problem2(1, 3, 4)
+
+
+\end{document}

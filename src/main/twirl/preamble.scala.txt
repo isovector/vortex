@@ -1,0 +1,26 @@
+@(title: String)
+\documentclass[12pt]{article}
+
+@wrap("usepackage[margin=1in]{geometry}")
+@wrap("usepackage{amsmath}")
+@wrap("usepackage{amsfonts}")
+@wrap("usepackage{braket, units, enumitem}")
+
+\begin{document}
+
+\newcounter{set}
+\setcounter{set}{1}
+\newcounter{problem}[set]
+\newcommand{\problem}{{\vspace{2\baselineskip}\noindent\large \bfseries Problem~\arabic{set}:}\\\refstepcounter{set}}
+\newcommand{\problemsub}{\refstepcounter{problem}{\vspace{2\baselineskip}\noindent\large \bfseries Problem~\arabic{set} \roman{problem}:}\\}
+\newcommand{\problemasub}{\refstepcounter{problem}{\vspace{2\baselineskip}\noindent\large \bfseries Problem~\arabic{set}\alph{problem}:}\\}
+\newcommand*\colvec[3][]{\begin{pmatrix}\ifx\relax#1\relax\else#1\\\fi#2\\#3\end{pmatrix}}
+
+\nocite{*}
+
+\title{@title}
+
+\author{Alexander Maguire \\ 
+amaguire@@uwaterloo.ca \\
+20396195}
+\maketitle
