@@ -1,0 +1,33 @@
+@import scala.math._; var r: Double = 0; var theta: Double = 0
+
+@roundAt(p: Int, n: Double) = @{
+    val s = pow (10, p); 
+    (round(n * s)) / s
+}
+
+@unit(num: Any, u: String) = @{
+    "\\unit[" + num.toString + "]{" + u + "}"
+}
+
+@problem(re: Int, im: Int) = {
+    @{r = roundAt(3, sqrt(re*re + im*im))}
+    @{theta = roundAt(3, atan2(im, re))}
+    \problemsub
+    \begin{align*}
+    z &= @re + @im i \\
+    \\
+    r &= ||z|| \\
+      &= @r \\
+    \\
+    \theta &= \arctan\frac{\Im}{\Re}(z) \biggr \rvert_{z = @re + @im i} \\
+    &= @unit(theta, "rad")
+    \\
+    z &= @r (\cos{@theta} + i\sin{@theta}) \\
+    &= @r e^{@theta i}
+    \end{align*}
+}
+
+@problem(-3, 4)
+@problem(7, -1)
+@problem(-2, -5)
+
