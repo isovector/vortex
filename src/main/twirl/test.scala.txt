@@ -1,45 +1,55 @@
-@import spire.math._; var r: Double = 0; var theta: Double = 0; var p: Double = 0
+@import spire.math._; var r: Double = 0; var theta: Double = 0; var p: Double = 0; var comp: Complex[Double] = Complex(0, 0)
 
 @preamble("PHYS 234 - A3")
 
 @problem1(re: Int, im: Int) = {
-    @{r = roundAt(2, sqrt(re*re + im*im))}
+    @{comp = Complex(re, im); p3 = clean(comp)}
+    @{r = roundAt(2, sqrt(re*re + im*im)); p2 = clean(r)}
     @{theta = roundAt(3, scala.math.atan2(im, re))}
     \problemsub
     \begin{align*}
-    z &= @re + @im i \\
+    z &= @p3 \\
     \\
     r &= ||z|| \\
-      &= @r \\
+      &= @p2 \\
     \\
-    \theta &= \arctan\frac{\Im}{\Re}(z) \biggr \rvert_{z = @re + @im i} \\
-           &= @unit(theta, "rad")
+    \theta &= \arctan\frac{\Im}{\Re}(z) \biggr \rvert_{z = @p3} \\
+           &= @unit(theta, "rad") \\
     \\
-    z &= @r (\cos{@theta} + i\sin{@theta}) \\
-    &= @r e^{@theta i}
+    z &= @p2 (\cos{@theta} + i\sin{@theta}) \\
+      &= @p2 e^{@theta i}
     \end{align*}
 }
 
 @problem2(i: Int, up: Complex[Double], down: Complex[Double]) = {
+    @{r = up.abs ** 2 + down.abs ** 2}
+    @{p1 = clean(up); p2 = clean(down); p3 = clean(r)}
+    \problemsub
     \begin{align*}
-        r &= \sqrt{|@up|^2 + |@down|^2} \\
-          &= @r \\
-        \\
-        \Ket{\psi_{@i,norm}} &= \frac{\Ket{\psi_@i}}{r} \\
-                             &= \frac{@up}{@r}\Ket{+} + \frac{@down}{@r}\Ket{-}
+        r^2 &= |@p1|^2 + |@p2|^2 \\
+            &= @p3 \\
+        \\ 
+        \Ket{\psi_{@i,norm}} &= \frac{\Ket{\psi_@i}}{r^2} \\
+                             &= \frac{@p1}{@p3}\Ket{+} + \frac{@p2}{@p3}\Ket{-} \\
         \\
         P_z &= |\Braket{+|\psi_{@i,norm}}|^2 \\
-            &= \left|\frac{@up}{@r}\right|^2 \\
-            &= @p \\
+            &= \left|\frac{@p1}{@p3}\right|^2 \\
+            &= @clean((up / r).conj2) \\
         \\
         P_x &= \left|\frac{1}{\sqrt{2}}
             (\Bra{+} + \Bra{-})\Ket{\psi_{@i,norm}}\right|^2 \\
             &= \left|\frac{1}{\sqrt{2}}
             (\Braket{+|\psi_{@i,norm}} + \Braket{-|\psi_{@i,norm}})\right|^2 \\
-            &= @p \\
+            &= \left|\frac{1}{\sqrt{2}} (@p1 + @p2)\right|^2 \\
+            &= @clean(((up + down) / r / sqrt(2)).conj2) \\
         \\
+        P_y &= \left|\frac{1}{\sqrt{2}}
+            (\Bra{+} + i\Bra{-})\Ket{\psi_{@i,norm}}\right|^2 \\
+            &= \left|\frac{1}{\sqrt{2}}
+            (\Braket{+|\psi_{@i,norm}} + i\Braket{-|\psi_{@i,norm}})\right|^2 \\
+            &= \left|\frac{1}{\sqrt{2}} (@p1 + i(@p2))\right|^2 \\
+            &= @clean(((up + Complex(0.0, 1.0) * down) / r / sqrt(2)).conj2)
     \end{align*}
-
 }
 
 @for(z <- List((-3, 4), (7, -1), (-2, -5))) {
@@ -48,6 +58,7 @@
 
 \stepcounter{set}
 @problem2(1, 3, 4)
+@problem2(2, 1, Complex(0, 2))
 
 
 \end{document}
