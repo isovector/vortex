@@ -25,6 +25,7 @@ object latex {
         val result = x match {
           case x: Int => "%d".format(x)
           case x: Long => "%d".format(x)
+
           case x: Float => "%.3f".format(x)
           case x: Double => "%.3f".format(x)
           case x: Complex[Double] => complex(x)
@@ -32,6 +33,18 @@ object latex {
         }
 
         result.replaceAll("0+$", "").replaceAll("\\.$", "")
+    }
+
+    def expectation(
+            up: Complex[Double],
+            down: Complex[Double],
+            a: Complex[Double], 
+            b: Complex[Double], 
+            c: Complex[Double], 
+            d: Complex[Double]): Double = {
+        (up.conjugate * (a * up + b * down) + 
+          down.conjugate * (c * up + d * down)
+        ).real
     }
 
     val epsilon = 0.001
@@ -51,11 +64,17 @@ object latex {
                 
       }
 
-      output toString
+      if (output == "1i")
+        "i"
+      else if (output == "-1i")
+        "-i"
+      else
+        output toString
     }
 
     case class RichComplex(underlying: Complex[Double]) {
-        def conj2: Complex[Double] = underlying * underlying.conjugate
+        def conj2: Double = (underlying * underlying.conjugate).real
+
     }
 
     implicit def complex2Rich(underlying: Complex[Double]): RichComplex =

@@ -22,12 +22,12 @@
 }
 
 @problem2(i: Int, up: Complex[Double], down: Complex[Double], words: String = "") = {
-    @{r = up.abs ** 2 + down.abs ** 2}
+    @{r = sqrt(up.abs ** 2 + down.abs ** 2)}
     @{p1 = clean(up); p2 = clean(down); p3 = clean(r)}
     \problemsub
     @words
     \begin{align*}
-        r^2 &= |@p1|^2 + |@p2|^2 \\
+        r &= |@p1|^2 + |@p2|^2 \\
             &= @p3 \\
         \\ 
         \Ket{\psi_{@i,norm}} &= \frac{\Ket{\psi_@i}}{r^2} \\
@@ -49,7 +49,7 @@
             &= \left|\frac{1}{\sqrt{2}}
             (\Braket{+|\psi_{@i,norm}} + i\Braket{-|\psi_{@i,norm}})\right|^2 \\
             &= \left|\frac{1}{\sqrt{2}} (@p1 + i(@p2))\right|^2 \\
-            &= @clean(((up + Complex(0.0, 1.0) * down) / r / sqrt(2)).conj2)
+            &= @clean(((up - Complex(0.0, 1.0) * down) / r / sqrt(2)).conj2)
     \end{align*}
 }
 

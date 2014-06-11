@@ -1,0 +1,119 @@
+@import spire.math._; var r: Double = 0; var theta: Double = 0; var p: Double = 0; var comp: Complex[Double] = 0; var comp2: Complex[Double] = 0
+
+@preamble("PHYS 234 - A5")
+
+@prob1ab(up: Complex[Double], down: Complex[Double], dir: String) = {
+    @{comp2 = Complex[Double](1, 1) * up.conjugate}
+    @{comp = (comp2 + down.conjugate * 2).conj2 / 6}
+    @{p1 = clean(up.conjugate)}
+    @{p2 = clean(down.conjugate)}
+
+    \problemsub
+    \begin{align*}
+        P_{@dir+} &= \left|_@dir \Braket{+|}\right|^2 \\
+                  &= \frac{1}{6} \left|(@p1)(i+1) + 2(@p2)\right|^2 \\
+                  &= @clean(comp) \\ \\
+        P_{@dir-} &= 1 - P_{@dir+} \\
+                  &= @clean(1 - comp)
+    \end{align*}
+}
+
+@prob1cd(upbasis: Complex[Double], downbasis: Complex[Double], dir: String) = {
+    \problemsub
+    \begin{align*}
+        \Braket{S_@dir}_{\Ket{}} &= \Braket{|S_@dir|} \\
+                               &= 
+            \frac{\begin{bmatrix} 1 - i & 2 \end{bmatrix}}{\sqrt{6}}
+            \frac{\hbar}{2}
+            \begin{bmatrix}
+                @clean(upbasis.real) & @clean(upbasis.imag) \\
+                @clean(downbasis.real) & @clean(downbasis.imag)
+            \end{bmatrix}
+            \frac{1}{\sqrt{6}}
+            \begin{bmatrix} 1 + i \\ 2 \end{bmatrix} \\
+                &= @clean(expectation(Complex[Double](1, 1) / sqrt(6), 2 / sqrt(6), upbasis.real, upbasis.imag, downbasis.real, downbasis.imag) / 2)\hbar
+    \end{align*}
+}
+
+
+
+@prob1ab(1, 0, "z")
+@prob1ab(1 / sqrt(2), -1 / sqrt(2), "x")
+@prob1cd(Complex(1, 0), Complex(0, -1), "z")
+@prob1cd(Complex(0, 1), Complex(1, 0), "x")
+
+
+
+\problem
+\begin{align*}
+    \psi &= \sqrt{\frac{3}{5}} \Ket{+} + \sqrt{\frac{2}{5}} \Ket{-} \\ \\
+    \Braket{S_x}_{\psi} &= \Braket{\psi|S_x|\psi} \\
+                        &= \frac{1}{5}
+\begin{bmatrix} \sqrt{3} & \sqrt{2} \end{bmatrix}
+            \frac{\hbar}{2}
+            \begin{bmatrix}
+                0 & 1 \\
+                1 & 0 
+            \end{bmatrix}
+        \begin{bmatrix} \sqrt{3} \\ \sqrt{2} \end{bmatrix} \\
+            &= @clean(expectation(sqrt(3)/sqrt(5), sqrt(2)/sqrt(5), 0, 1, 1, 0 / 2)) \hbar
+\end{align*}
+
+
+
+\problem
+\begin{align*}
+    \Ket{\pm}_x &= \frac{1}{\sqrt{2}} \left(\Ket{+} \pm \Ket{-}\right) \\ \\
+    \mathbf{S_x} \Ket{\pm}_x &= \pm\frac{\hbar}{2} \Ket{\pm}_x \\
+    \begin{bmatrix}
+        a & b \\
+        c & d
+    \end{bmatrix} \Ket{\pm}_x &= \pm\frac{\hbar}{2} \Ket{\pm}_x \\ \\
+        a\Ket{+} + b\Ket{-} &= +\frac{\hbar}{2} \left(\Ket{+} + \Ket{-}\right) \\ 
+        c\Ket{+} + d\Ket{-} &= -\frac{\hbar}{2} \left(\Ket{+} - \Ket{-}\right) \\ \\
+        \to 
+    \begin{bmatrix}
+        a & b \\
+        c & d
+    \end{bmatrix} &= 
+    \frac{\hbar}{2}
+    \begin{bmatrix}
+        1 & 1 \\
+        -1 & 1
+    \end{bmatrix}
+\end{align*}
+
+
+@ketbra(in: String, dir: String) = {
+    \biggl( \Ket{@in}_@dir 
+    {}_@dir\Bra{@in} \biggr)
+}
+
+@ketbra2(down: Complex[Double]) = {
+    \biggl( (\Ket{+} + @clean(down) \Ket{-} )
+    (\Bra{+} + @clean(down.conjugate) \Bra{-} )
+    \biggr)
+}
+
+
+
+\problem
+
+Given $20\% \Ket{-}_x$, $75\% \Ket{+}_y$, $5\% \Ket{+}_z$:
+
+\begin{align*}
+    \rho &= \sum_i p_i \Ket{\psi_i}\Bra{\psi_i} \\
+         &= 0.2 @ketbra("-", "x") + 0.75 @ketbra("+", "y") + 0.05 @ketbra("+", "z") \\
+         &= \frac{0.2}{2} @ketbra2(-1) \\
+    &\phantom{{}=1} 
+    + \frac{0.75}{2} @ketbra2(Complex(0, 1)) \\
+    &\phantom{{}=1}
+    + 0.05 \Ket{+}\Bra{+} \\
+    %%
+    &= \biggl(0.525\Ket{+} + (-0.1+0.375i)\Ket{-} \biggr)
+    \biggl(
+        0.525\Bra{+} + (-0.1-0.375i)\Ket{-}
+    \biggr)
+\end{align*}
+
+\end{document}
