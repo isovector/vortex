@@ -1,4 +1,4 @@
-@import spire.math._; implicit val basis = new Basis("+", "-"); var kb1 = mkKet(1, -1) times (1 / sqrt(2)); var kb2 = mkKet(1, Complex(0, 1)) times (1 / sqrt(2)); var kb3 = mkKet(1, 0); var rho = new Matrix(List())
+@import spire.math._; implicit val basis = new Basis("+", "-"); var kb1 = mkKet(1, -1) times (1 / sqrt(2)); var kb2 = mkKet(1, Complex(0, 1)) times (1 / sqrt(2)); var kb3 = mkKet(1, 0); var rho = new Matrix(List()); var k1 = mkKet(1, 0); var k2 = mkKet(1, 1) times (1 / sqrt(2));
 
 @preamble("PHYS 234 - A6")
 
@@ -23,14 +23,42 @@
 \problemasub
 \begin{align*}
     \Braket{\psi} &= 0.4 \frac{\hbar}{2} - 0.6 \frac{\hbar}{2} \\
-                  &= -0.2 \frac{\hbar}{2}
+                  &= -0.1 \hbar
 \end{align*}
 
 \problemasub
 \begin{align*}
     \Braket{\mathbf{S_x} \rho} &= Tr \biggl\{ \frac{\hbar}{2} @{Sx.asLatex} @{rho.asLatex} \biggr\} \\
-                               &= Tr \biggl\{ \frac{\hbar}{2} @{(Sx times rho).asLatex} \biggr\} \\
-                               &= @clean((Sx times rho).trace) \frac{\hbar}{2}
+                               &= \frac{\hbar}{2} Tr \biggl\{ @{(Sx times rho).asLatex} \biggr\} \\
+                               &= @clean((Sx times rho).trace / 2) \hbar
+\end{align*}
+
+\stepcounter{set}
+\problem
+
+\begin{align*}
+    P(x+) &= |{}_{x}\Braket{+|+}|^2 \\
+          &= 0.5
+\end{align*}
+
+Conditional on the observance of $\Ket{+}_x$, we continue:
+
+\begin{align*}
+    P(+|x+) &= P(x+) \times |\Braket{+|+}_x|^2 \\
+            &= 0.5 \times 0.5 \\
+            &= 0.25\\
+    P(-|x+) &= P(x+) \times |\Braket{-|+}_x|^2 \\
+            &= 0.5 \times 0.5 \\
+            &= 0.25
+\end{align*}
+
+\problem
+\begin{align*}
+    \theta &= \frac{\pi}{4} \\
+    \phi &= \frac{5\pi}{3} \\ \\
+    \Ket{\psi}_n &= \cos{\frac{\theta}{2}}\Ket{+} + \sin^2{\frac{\theta}{2}}e^{i\phi}\Ket{-} \\
+                 &= 0.924\Ket{+} + 0.073\Ket{-} \\ \\
+    P_{y+} &= |{}_y\Braket{+|\psi}_n|^2 \\
 \end{align*}
 
 \end{document}
