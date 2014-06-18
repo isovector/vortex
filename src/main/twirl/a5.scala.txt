@@ -61,29 +61,6 @@
 
 
 
-\problem
-\begin{align*}
-    \Ket{\pm}_x &= \frac{1}{\sqrt{2}} \left(\Ket{+} \pm \Ket{-}\right) \\ \\
-    \mathbf{S_x} \Ket{\pm}_x &= \pm\frac{\hbar}{2} \Ket{\pm}_x \\
-    \begin{bmatrix}
-        a & b \\
-        c & d
-    \end{bmatrix} \Ket{\pm}_x &= \pm\frac{\hbar}{2} \Ket{\pm}_x \\ \\
-        a\Ket{+} + b\Ket{-} &= +\frac{\hbar}{2} \left(\Ket{+} + \Ket{-}\right) \\ 
-        c\Ket{+} + d\Ket{-} &= -\frac{\hbar}{2} \left(\Ket{+} - \Ket{-}\right) \\ \\
-        \to 
-    \begin{bmatrix}
-        a & b \\
-        c & d
-    \end{bmatrix} &= 
-    \frac{\hbar}{2}
-    \begin{bmatrix}
-        1 & 1 \\
-        -1 & 1
-    \end{bmatrix}
-\end{align*}
-
-
 @ketbra(in: String, dir: String) = {
     \biggl( \Ket{@in}_@dir 
     {}_@dir\Bra{@in} \biggr)
@@ -104,16 +81,47 @@ Given $20\% \Ket{-}_x$, $75\% \Ket{+}_y$, $5\% \Ket{+}_z$:
 \begin{align*}
     \rho &= \sum_i p_i \Ket{\psi_i}\Bra{\psi_i} \\
          &= 0.2 @ketbra("-", "x") + 0.75 @ketbra("+", "y") + 0.05 @ketbra("+", "z") \\
-         &= \frac{0.2}{2} @ketbra2(-1) \\
-    &\phantom{{}=1} 
-    + \frac{0.75}{2} @ketbra2(Complex(0, 1)) \\
-    &\phantom{{}=1}
-    + 0.05 \Ket{+}\Bra{+} \\
-    %%
-    &= \biggl(0.525\Ket{+} + (-0.1+0.375i)\Ket{-} \biggr)
-    \biggl(
-        0.525\Bra{+} + (-0.1-0.375i)\Ket{-}
-    \biggr)
+         &= 0.2 \mathbf{-S_x} + 0.75 \mathbf{S_y} + 0.05 \mathbf{S_z} \\
+         &= \frac{\hbar}{2} \begin{bmatrix}
+    0.005 & -0.2 + 0.75i \\
+    0.2 - 0.75i & -0.05
+\end{bmatrix} \\ \\
+    \Braket{\mathbf{S_y}\rho}_{\Ket{\psi}} &= \frac{\hbar^2}{4}Tr\biggl\{
+\begin{bmatrix}
+    0 & -i \\
+    i & 0
+\end{bmatrix}
+\begin{bmatrix}
+    0.005 & -0.2 + 0.75i \\
+    0.2 - 0.75i & -0.05
+\end{bmatrix}
+    \biggl\}
+    &= \frac{\hbar^2}{4} (0.75 + 0.2i + -0.75 -0.2i) \\
+    &= 0
+\end{align*}
+
+
+
+\problem
+\begin{align*}
+    \Ket{\pm}_x &= \frac{1}{\sqrt{2}} \left(\Ket{+} \pm \Ket{-}\right) \\ \\
+    \mathbf{S_x} \Ket{\pm}_x &= \pm\frac{\hbar}{2} \Ket{\pm}_x \\
+    \begin{bmatrix}
+        a & b \\
+        c & d
+    \end{bmatrix} \Ket{\pm}_x &= \pm\frac{\hbar}{2} \Ket{\pm}_x \\ \\
+        a\Ket{+} + b\Ket{-} &= +\frac{\hbar}{2} \left(\Ket{+} + \Ket{-}\right) \\ 
+        c\Ket{+} + d\Ket{-} &= -\frac{\hbar}{2} \left(\Ket{+} - \Ket{-}\right) \\ \\
+        \to 
+    \begin{bmatrix}
+        a & b \\
+        c & d
+    \end{bmatrix} &= 
+    \frac{\hbar}{2}
+    \begin{bmatrix}
+        1 & 1 \\
+        -1 & 1
+    \end{bmatrix}
 \end{align*}
 
 \end{document}

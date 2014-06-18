@@ -13,8 +13,10 @@
 \newcounter{problem}[set]
 \newcommand{\problem}{{\vspace{2\baselineskip}\noindent\large \bfseries Problem~\arabic{set}:}\\\refstepcounter{set}}
 \newcommand{\problemsub}{\refstepcounter{problem}{\vspace{2\baselineskip}\noindent\large \bfseries Problem~\arabic{set} \roman{problem}:}\\}
-\newcommand{\problemasub}{\refstepcounter{problem}{\vspace{2\baselineskip}\noindent\large \bfseries Problem~\arabic{set}\alph{problem}:}\\}
-\newcommand*\colvec[3][]{\begin{pmatrix}\ifx\relax#1\relax\else#1\\\fi#2\\#3\end{pmatrix}}
+\newcommand{\problemasub}{\refstepcounter{problem}{\vspace{2\baselineskip}\noindent\large \bfseries Problem~\arabic{set} \alph{problem}:}\\}
+\newcommand*\colvec[3][]{\begin{bmatrix}\ifx\relax#1\relax\else#1\\\fi#2\\#3\end{bmatrix}}
+\newcommand{\Ketbra}[1]{\Ket{#1}\Bra{#1}}
+\newcommand{\Ketbrad}[2]{\Ket{#1}_{#2}{}_{#2}\Bra{#1}}
 
 \nocite{*}
 
