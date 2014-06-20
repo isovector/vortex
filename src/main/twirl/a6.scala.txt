@@ -1,4 +1,4 @@
-@import spire.math._; implicit val basis = new Basis("+", "-"); var kb1 = mkKet(1, -1) times (1 / sqrt(2)); var kb2 = mkKet(1, Complex(0, 1)) times (1 / sqrt(2)); var kb3 = mkKet(1, 0); var rho = new Matrix(List()); var k1 = mkKet(1, 0); var k2 = mkKet(1, 1) times (1 / sqrt(2));
+@import spire.math._; implicit val basis = new Basis("+", "-"); var kb1 = mkKet(1, -1) times (1 / sqrt(2)); var kb2 = mkKet(1, Complex(0, 1)) times (1 / sqrt(2)); var kb3 = mkKet(1, 0); var rho = new Matrix(List()); var k1 = mkKet(1, 0); var k2 = mkKet(1, 1) times (1 / sqrt(2)); var a4c = mkKet(0, 1, 0); var bl1 = mkKet(1, 0, 0).toBra; var bl2 = (mkKet(0, 1, 1) times (1 / sqrt(2))).toBra; var bl3 = (mkKet(0, -1, 1) times (1/ sqrt(2))).toBra;
 
 @preamble("PHYS 234 - A6")
 
@@ -44,12 +44,12 @@
 Conditional on the observance of $\Ket{+}_x$, we continue:
 
 \begin{align*}
-    P(+|x+) &= P(x+) \times |\Braket{+|+}_x|^2 \\
-            &= 0.5 \times 0.5 \\
-            &= 0.25\\
-    P(-|x+) &= P(x+) \times |\Braket{-|+}_x|^2 \\
-            &= 0.5 \times 0.5 \\
-            &= 0.25
+    P(+|x+) &= |\Braket{+|+}_x|^2 \\
+            &= 0.5 \\
+    P(-|x+) &= |\Braket{-|+}_x|^2 \\
+            &= 0.5 \\
+    P(+) &= P(x+) \times P(+|x+) = 0.25 \\
+    P(-) &= P(x+) \times P(-|x+) = 0.25 \\
 \end{align*}
 
 \problem
@@ -57,9 +57,109 @@ Conditional on the observance of $\Ket{+}_x$, we continue:
     \theta &= \frac{\pi}{4} \\
     \phi &= \frac{5\pi}{3} \\ \\
     \Ket{\psi}_n &= \cos{\frac{\theta}{2}}\Ket{+} + \sin^2{\frac{\theta}{2}}e^{i\phi}\Ket{-} \\
-                 &= 0.924\Ket{+} + 0.073\Ket{-} \\ \\
+                 &= 0.924\Ket{+} + (0.191 - 0.331i)\Ket{-} \\ \\
     P_{y+} &= |{}_y\Braket{+|\psi}_n|^2 \\
+           &= @clean(((mkKet(1, Complex[Double](0, 1)) times (1 / sqrt(2))).toBra times mkKet(0.924, Complex[Double](0.191, -0.331))).conj2) \\
+    P_{y-} &= 1 - P_{y+} \\
+           &= 0.806
 \end{align*}
+
+
+\problemasub
+\begin{align*}
+    AB - BA &= \begin{bmatrix}
+    a_1 b_1 & 0 & 0 \\
+    0 & 0 & a_2 b_2 \\
+    0 & a_3 b_2 & 0
+    \end{bmatrix} -
+    \begin{bmatrix}
+        a_1 b_1 & 0 & 0 \\
+        0 & 0 & a_3 b_2 \\
+        0 & a_2 b_2 & 0
+    \end{bmatrix} \\
+    &\ne \hat{0}
+\end{align*}
+
+\probleamsub
+Because A is a diagonal basis, it must be expressed in its own basis. Therefore:
+\begin{align*}
+    A_1 &= a_1 \\
+    A_2 &= a_2 \\
+    A_3 &= a_3 \\
+    \\
+    \Ket{a_1} &= @{mkKet(1, 0, 0).asLatex} \\
+    \Ket{a_2} &= @{mkKet(0, 1, 0).asLatex} \\
+    \Ket{a_3} &= @{mkKet(0, 0, 1).asLatex}
+\end{align*}
+
+Unfortunately B is not so nice, we must compute its eigenvalues:
+\begin{align*}
+    \det{B - \lambda I} = 0 \\
+    \det{
+    \begin{bmatrix}
+        b_1 -\lambda & 0 & 0 \\
+        0 & -\lambda & b_2 \\
+        0 & b_2 & -\lambda
+    \end{bmatrix}} &= 0 \\
+    (b_1 - \lambda)(\lambda^2 - b_2^2) = 0 \\
+    \lambda &= \{ b_1, b_2, -b_2 \} \\
+    \\
+    \begin{bmatrix}
+        b_1 & 0 & 0 \\
+        0 & 0 & b_2 \\
+        0 & b_2 & 0
+    \end{bmatrix}
+    \begin{bmatrix}a\\b\\c\end{bmatrix} 
+        &= b_1\begin{bmatrix}a\\b\\c\end{bmatrix} \\
+    \Ket{b_1} &= \begin{bmatrix}1\\0\\0\end{bmatrix} \\
+    \\
+    \begin{bmatrix}
+        b_1 & 0 & 0 \\
+        0 & 0 & b_2 \\
+        0 & b_2 & 0
+    \end{bmatrix}
+    \begin{bmatrix}a\\b\\c\end{bmatrix} 
+        &= b_2\begin{bmatrix}a\\b\\c\end{bmatrix} \\
+    \Ket{b_2} &= \frac{1}{\sqrt{2}}\begin{bmatrix}0\\1\\1\end{bmatrix} \\
+    \\
+    \begin{bmatrix}
+        b_1 & 0 & 0 \\
+        0 & 0 & b_2 \\
+        0 & b_2 & 0
+    \end{bmatrix}
+    \begin{bmatrix}a\\b\\c\end{bmatrix} 
+        &= -b_2\begin{bmatrix}a\\b\\c\end{bmatrix} \\
+    \Ket{-b_2} &= \frac{1}{\sqrt{2}}\begin{bmatrix}0\\-1\\1\end{bmatrix}
+\end{align*}
+
+\problemasub
+\begin{align*}
+    P_{b_1} &= |\Braket{b_1|2}|^2 \\
+            &= \biggl|@{bl1.asLatex}@{a4c.asLatex}\biggr|^2 \\
+            &= @clean((bl1 times a4c).conj2) \\ \\
+    P_{b_2} &= |\Braket{b_2|2}|^2 \\
+            &= \biggl|@{bl2.asLatex}@{a4c.asLatex}\biggr|^2 \\
+            &= @clean((bl2 times a4c).conj2) \\ \\
+    P_{b_3} &= |\Braket{b_3|2}|^2 \\
+            &= \biggl|@{bl3.asLatex}@{a4c.asLatex}\biggr|^2 \\
+            &= @clean((bl3 times a4c).conj2) \\ \\
+    P_{a_1|b_2} &= \biggl|@{mkBra(1, 0, 0).asLatex}@{bl2.toKet.asLatex}\biggr|^2 \\
+                &= 0 \\ \\
+    P_{a_2|b_2} &= \biggl|@{mkBra(0, 1, 0).asLatex}@{bl2.toKet.asLatex}\biggr|^2 \\
+                &= 0.5 \\ \\
+    P_{a_3|b_2} &= \biggl|@{mkBra(0, 0, 1).asLatex}@{bl2.toKet.asLatex}\biggr|^2 \\
+                &= 0.5 \\ \\
+    P_{a_1|b_3} &= \biggl|@{mkBra(1, 0, 0).asLatex}@{bl3.toKet.asLatex}\biggr|^2 \\
+                &= 0 \\ \\
+    P_{a_2|b_3} &= \biggl|@{mkBra(0, 1, 0).asLatex}@{bl3.toKet.asLatex}\biggr|^2 \\
+                &= 0.5 \\ \\
+    P_{a_3|b_3} &= \biggl|@{mkBra(0, 0, 1).asLatex}@{bl3.toKet.asLatex}\biggr|^2 \\
+                &= 0.5
+\end{align*}
+
+
+\problemasub
+(a) and (c) are related in that the answers for (c) would be the same if operators A and B commuted.
 
 \end{document}
 
